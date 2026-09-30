@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="#0b1120"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="#2563eb" stroke-width="1.5" stroke-opacity="0.4"/>
+  <!-- PC Rig Case Silhouette -->
+  <rect x="14" y="10" width="36" height="44" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="2.5"/>
+  <!-- Tempered Glass Window -->
+  <rect x="18" y="14" width="22" height="30" rx="3" fill="#1e293b" stroke="#60a5fa" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <!-- GPU & Motherboard Glow -->
+  <line x1="20" y1="28" x2="36" y2="28" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="28" cy="21" r="4" fill="#3b82f6" fill-opacity="0.8"/>
+  <circle cx="28" cy="21" r="2" fill="#93c5fd"/>
+  <circle cx="24" cy="38" r="3" fill="#10b981" fill-opacity="0.7"/>
+  <circle cx="32" cy="38" r="3" fill="#3b82f6" fill-opacity="0.7"/>
+  <!-- Power Button & Front I/O -->
+  <circle cx="44" cy="16" r="2" fill="#10b981"/>
+  <line x1="44" y1="22" x2="44" y2="25" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="44" y1="28" x2="44" y2="31" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Feet -->
+  <rect x="17" y="54" width="7" height="3" rx="1" fill="#334155"/>
+  <rect x="40" y="54" width="7" height="3" rx="1" fill="#334155"/>
+</svg>

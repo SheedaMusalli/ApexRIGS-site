@@ -1,0 +1,17 @@
+import React, { useState } from 'react';
+import { api, localDate } from './SourceDocumentForm';
+export function BankEntryForm({ banks, onClose, onSaved }: { banks: any[]; onClose: () => void; onSaved: () => void }) {
+  const [id] = useState(crypto.randomUUID()), [type,setType] = useState('EXPENSE'), [bankAccountId,setBank] = useState(''), [targetBankId,setTarget] = useState('');
+  const [date,setDate] = useState(localDate()), [amount,setAmount] = useState(''), [narration,setNarration] = useState(''), [category,setCategory] = useState('6000');
+  const [error,setError] = useState(''), [busy,setBusy] = useState(false);
+  const input = 'block mt-1 w-full bg-slate-950 p-3 rounded-lg border border-white/10';
+  return <div className="fixed inset-0 z-[160] bg-black/80 flex items-center justify-center p-4"><form className="p-6 bg-slate-900 rounded-2xl w-full max-w-lg space-y-4" onSubmit={async e => { e.preventDefault(); if(busy)return; setBusy(true); setError(''); try { await api('/api/erp/treasury/entries','POST',{ id,type,bankAccountId,targetBankId: type === 'TRANSFER' ? targetBankId : undefined,date,amount:Number(amount),narration,category }); onSaved(); } catch(e:any) { setError(e.message); } finally { setBusy(false); } }}>
+  <h3 className="text-xl font-bold">New bank entry</h3><p className="text-sm text-slate-400">For customer and supplier settlements, open the invoice or bill so its balance is updated too.</p>{error && <p role="alert" className="text-red-300">{error}</p>}
+  <label className="block">Type<select value={type} onChange={e => setType(e.target.value)} className={input}><option value="EXPENSE">Expense</option><option value="INCOME">Other income</option><option value="TRANSFER">Bank transfer</option></select></label>
+  <label className="block">{type === 'INCOME' ? 'Receive into' : 'Pay from'}<select required value={bankAccountId} onChange={e => setBank(e.target.value)} className={input}><option value="">Choose account…</option>{banks.filter(b => b.isActive).map(b => <option key={b.id} value={b.id}>{b.accountName}</option>)}</select></label>
+  {type === 'TRANSFER' && <label className="block">Transfer to<select required value={targetBankId} onChange={e => setTarget(e.target.value)} className={input}><option value="">Choose account…</option>{banks.filter(b => b.isActive && b.id !== bankAccountId).map(b => <option key={b.id} value={b.id}>{b.accountName}</option>)}</select></label>}
+  {type === 'EXPENSE' && <label className="block">Expense category<select value={category} onChange={e => setCategory(e.target.value)} className={input}>{Object.entries({ '6000':'General expenses','6100':'Rent','6200':'Salaries','6300':'Utilities','6400':'Bank charges' }).map(([k,v]) => <option key={k} value={k}>{v}</option>)}</select></label>}
+  <div className="grid grid-cols-2 gap-3"><label>Amount (PKR)<input required type="number" min="0.01" step="0.01" value={amount} onChange={e => setAmount(e.target.value)} className={input}/></label><label>Date<input required type="date" value={date} onChange={e => setDate(e.target.value)} className={input}/></label></div>
+  <label className="block">Description<input required value={narration} onChange={e => setNarration(e.target.value)} className={input}/></label><div className="flex justify-end gap-3"><button type="button" disabled={busy} onClick={onClose}>Cancel</button><button disabled={busy} className="px-4 py-3 bg-amber-500 text-slate-950 rounded-lg font-bold">{busy ? 'Posting…' : 'Post entry'}</button></div>
+  </form></div>;
+}

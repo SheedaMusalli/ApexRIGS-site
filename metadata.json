@@ -1,0 +1,9 @@
+{
+  "name": "ApexRig PC & Hardware Store",
+  "description": "High-performance PC parts, custom gaming rigs, compatibility PC builder, Pakistani retail & enterprise ERP Suite with sales, procurement, multi-warehouse stock, BOM manufacturing, treasury, and GL accounting.",
+  "requestFramePermissions": [
+    "microphone",
+    "display-capture"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

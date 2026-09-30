@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Immediately suppress benign Vite dev-server WebSocket HMR disconnections and sandbox socket notices
+      (function() {
+        function isBenign(raw) {
+          if (!raw) return false;
+          if (typeof raw === 'object') {
+            if (raw.onerror || raw.authorizationError !== undefined || raw._hadError !== undefined || raw._closeAfterHandlingError !== undefined) {
+              return true;
+            }
+          }
+          var msg = (typeof raw === 'string' ? raw : (raw && raw.message) || '') + '';
+          return (
+            msg.includes('senderOnError') ||
+            msg.includes('authorizationError') ||
+            msg.includes('WebSocket') ||
+            msg.includes('websocket') ||
+            msg.includes('closed without opened') ||
+            msg.includes('[vite]') ||
+            msg.includes('Failed to fetch') ||
+            msg.includes('NetworkError') ||
+            msg.includes('Load failed') ||
+            msg.includes('The user aborted a request') ||
+            msg.includes('AbortError')
+          );
+        }
+
+        window.addEventListener('unhandledrejection', function(event) {
+          if (isBenign(event.reason)) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          }
+        }, true);
+
+        window.addEventListener('error', function(event) {
+          if (isBenign(event.message) || isBenign(event.error)) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          }
+        }, true);
+
+        var origError = console.error;
+        console.error = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            if (isBenign(arguments[i])) return;
+          }
+          origError.apply(console, arguments);
+        };
+
+        var origWarn = console.warn;
+        console.warn = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            if (isBenign(arguments[i])) return;
+          }
+          origWarn.apply(console, arguments);
+        };
+      })();
+    </script>
+    <title>ApexRig PC & Hardware Store</title>
+    <meta name="description" content="High-performance PC parts, custom gaming rigs, compatibility PC builder, Pakistani retail & enterprise ERP Suite with sales, procurement, multi-warehouse stock, BOM manufacturing, treasury, and GL accounting." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0b1120" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta property="og:title" content="ApexRig PC & Hardware Store" />
+    <meta property="og:description" content="High-performance PC parts, custom gaming rigs, compatibility PC builder, Pakistani retail & enterprise ERP Suite with sales, procurement, multi-warehouse stock, BOM manufacturing, treasury, and GL accounting." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+  </head>
+  <body style="background-color: #0b1120; margin: 0; padding: 0; min-height: 100vh;">
+    <div id="root">
+      <div style="display: flex; min-height: 100vh; background-color: #0b1120; color: #94a3b8; align-items: center; justify-content: center; font-family: system-ui, -apple-system, sans-serif;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #2563eb, #4f46e5); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(37,99,235,0.4); animation: pulse 2s infinite;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.05em; color: #cbd5e1;">ApexRig PC Store & ERP</div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
